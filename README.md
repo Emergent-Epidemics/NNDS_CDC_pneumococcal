@@ -8,17 +8,27 @@ Invasive pneumococcal pneumonia data from the National Notifiable Diseases Surve
 
 #### Description
 Five data files were combined: 
+
 [1]"NNDSS_-_Table_II._Invasive_pneumococcal_disease__all_ages_2018.csv" 
+
 [2] "NNDSS_-_Table_II._Invasive_Pneumococcal_Diseases__All_Ages_2017.csv"
+
 [3] "NNDSS_-_Table_II._Invasive_Pneumococcal_to_Legionellosis_2014.csv"  
-[4] "NNDSS_-_Table_II._Invasive_Pneumococcal_to_Legionellosis_2015.csv"  
+
+[4] "NNDSS_-_Table_II._Invasive_Pneumococcal_to_Legionellosis_2015.csv"
+  
 [5] "NNDSS_-_Table_II._Invasive_Pneumococcal_to_Legionellosis_2016.csv"  
 
 Using the following columns for each data set:
+
 [1] "Invasive.Pneumococcal.Disease..all.ages...Confirmed..Current.week"
+
 [2] "Invasive.Pneumococcal.Disease...All.ages..Confirmed..Current.week"
-[3] "Invasive.Pneumococcal.disease..All.ages..Current.week"            
-[4] "Invasive.Pneumococcal.disease...All.ages..Current.week"           
+
+[3] "Invasive.Pneumococcal.disease..All.ages..Current.week"        
+    
+[4] "Invasive.Pneumococcal.disease...All.ages..Current.week"
+           
 [5] "Invasive.Pneumococcal.disease...All.ages..Current.week"   
 
 ### Last Update
