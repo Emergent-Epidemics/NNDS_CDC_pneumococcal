@@ -86,10 +86,49 @@ for(i in 1:length(files)){
   }
 }
 
+#################
+#State pop sizes#
+#################
+#data from https://www.census.gov/data/tables/2017/demo/popest/state-total.html
+
+state_pops <- read.csv("State_Pops/nst-est2017-alldata.csv", stringsAsFactors = FALSE)
+
+pop_cols <- grep(pattern = "POPESTIMATE", x = colnames(state_pops), ignore.case = TRUE)
+years_pops <- unlist(lapply(colnames(state_pops)[pop_cols], function(x) unlist(strsplit(x, split = "POPESTIMATE"))[2]))
+years_pops_use <- which(years_pops %in% years)
+pop_cols_use <- pop_cols[years_pops_use]
+
+pop_data <- matrix(NA, ncol = ncol(merge_data), nrow = nrow(merge_data))
+colnames(pop_data) <- colnames(merge_data)
+pop_data <- data.frame(pop_data)
+pop_data$MMWR_Year <- merge_data$MMWR_Year
+pop_data$MMWR_Week <- merge_data$MMWR_Week
+pop_data$Date <- merge_data$Date
+
+tab_years <- table(pop_data$MMWR_Year)
+
+state_pop_names_for_mt <- toupper(state_pops$NAME)
+state_pop_names_for_mt <- gsub(pattern = "[ ]", replacement = ".", x = state_pop_names_for_mt)
+for(i in 4:ncol(pop_data)){
+  use.i <- which(state_pop_names_for_mt == colnames(pop_data)[i])
+  if(length(use.i) != 1){
+    stop()
+  }
+  data.i <- as.numeric(state_pops[use.i,pop_cols_use])
+  x <- 1:4
+  mod.i <- lm(data.i~x)
+  pred.18.i <- predict(mod.i, newdata = data.frame(x = 5))
+  data.i <- c(data.i, pred.18.i)
+  pop_data[,i] <- rep(data.i, tab_years)
+}
+
 ###########
 #Save Data#
 ###########
 if(write_new == TRUE){
-  file_name <- paste0(time_stamp, "_", min(years), "_", max(years), "_NNDSS_Table_II_invasive_pneumococcal_disease.csv")
-  write.csv(merge_data, file = file_name, row.names = FALSE, quote = FALSE)
+  file_name_merge <- paste0(time_stamp, "_", min(years), "_", max(years), "_NNDSS_Table_II_invasive_pneumococcal_disease.csv")
+  write.csv(merge_data, file = file_name_merge, row.names = FALSE, quote = FALSE)
+  
+  file_name_pop <- paste0(time_stamp, "_", min(years), "_", max(years), "_US_census_state_pop_data.csv")
+  write.csv(pop_data, file = file_name_pop, row.names = FALSE, quote = FALSE)
 }
