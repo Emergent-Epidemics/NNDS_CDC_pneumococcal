@@ -122,6 +122,12 @@ for(i in 4:ncol(pop_data)){
   pop_data[,i] <- rep(data.i, tab_years)
 }
 
+national_cases <- rowSums(merge_data[,-c(1:3)], na.rm = TRUE)
+natioanl_pops <- rowSums(pop_data[,-c(1:3)], na.rm = TRUE)
+national_rate <- national_cases/natioanl_pops
+national_rate_out <- data.frame(merge_data[,1:3], national_rate)
+colnames(national_rate_out) <- c(colnames(merge_data)[1:3], "prop_invasive_pneumococcal_disease")
+
 ###########
 #Save Data#
 ###########
@@ -131,4 +137,7 @@ if(write_new == TRUE){
   
   file_name_pop <- paste0(time_stamp, "_", min(years), "_", max(years), "_US_census_state_pop_data.csv")
   write.csv(pop_data, file = file_name_pop, row.names = FALSE, quote = FALSE)
+  
+  file_name_rate <- paste0(time_stamp, "_", min(years), "_", max(years), "_prop_NNDSS_Table_II_invasive_pneumococcal_disease.csv")
+  write.csv(national_rate_out, file = file_name_rate, row.names = FALSE, quote = FALSE)
 }
